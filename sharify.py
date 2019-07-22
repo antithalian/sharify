@@ -31,24 +31,24 @@ parser.add_argument('ssid',
 # accepts a password but defaults to nopass
 # not required
 parser.add_argument('-p', '--password',
-help='Network\'s password, this is optional, but most networks have one',
+    help='Network\'s password, this is optional, but most networks have one',
     default='store_const',
     const=None
     )
 
+# TODO - FIX HIDDEN NETWORK OPTION
 # add hidden network arg
 # defaults to false, as in defaults to network is not hidden
 # not required
-parser.add_argument('-h', '--hidden',
-    help='Hidden network option. Few networks are like this',
-    default='store_false'
-    )
+# parser.add_argument('-h', '--hidden',
+#     help='Hidden network option. Few networks are like this'
+#     )
 
 args_passed = parser.parse_args()
 network_data.append(args_passed.type)
 network_data.append(args_passed.ssid)
 network_data.append(args_passed.password)
-if args_passed.h != False or args_passed.hidden != False:
-    network_data.append(True)
+# TODO
+# network_data.append(args_passed.hidden)
 
 print(network_data)
