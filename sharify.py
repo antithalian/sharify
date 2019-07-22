@@ -4,51 +4,23 @@
 # documentation for that can be found here:
 # https://github.com/zxing/zxing/wiki/Barcode-Contents#wi-fi-network-config-android-ios-11
 
-#import qrcode
-import argparse
+# import qr generator and parser functions
+import qrcode as qr
+from parser import build_parser, run_parser
 
-# create data structure to pass to qr gen
-network_data = []
+# construct parser
+parser = build_parser()
 
-parser = argparse.ArgumentParser(description='Generate a QR code to share access to a WiFi network', prog="sharify")
+# place network data into struct
+net_data = []
+raw = run_parser(net_data, parser)
 
-# add network type arg
-# accepts all valid network types
-# required
-parser.add_argument('type',
-    help='Type of network (WPA, WPA2, WEP)',
-    choices=['WPA', 'WPA2', 'WEP', 'wpa', 'wpa2', 'wep']
-    )
+def build_str(data):
+    return "WIFI:T:" + data[0] + ";S:" + data[1] + ";P:" + data[2] + ";;"
 
-# add ssid arg
-# accepts any string as an ssid
-# required
-parser.add_argument('ssid',
-    help='Network\'s SSID \(network\'s name\)'
-    )
+qrstr = build_str(raw)
 
-# add password arg
-# accepts a password but defaults to nopass
-# not required
-parser.add_argument('-p', '--password',
-    help='Network\'s password, this is optional, but most networks have one',
-    default='store_const',
-    const=None
-    )
+img = qr.make(qrstr)
 
-# TODO - FIX HIDDEN NETWORK OPTION
-# add hidden network arg
-# defaults to false, as in defaults to network is not hidden
-# not required
-# parser.add_argument('-h', '--hidden',
-#     help='Hidden network option. Few networks are like this'
-#     )
-
-args_passed = parser.parse_args()
-network_data.append(args_passed.type)
-network_data.append(args_passed.ssid)
-network_data.append(args_passed.password)
-# TODO
-# network_data.append(args_passed.hidden)
-
-print(network_data)
+imgstr = "output/" + raw[1] + ".png"
+img.save(imgstr)
