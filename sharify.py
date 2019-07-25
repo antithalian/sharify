@@ -23,7 +23,8 @@ def build_str(network_data):
 
     # handle NOPASS case
     if network_data[0].upper() == 'NOPASS':
-        if network_data[2] != None:
+        # apparently argparse stores 'store_const' rather than None, soooo
+        if network_data[2] != 'store_const':
             # handle case of impossibly different input between T and P
             # simply exit
             # need to add better error handling and logging
