@@ -56,7 +56,16 @@ def parse_passed_args(network_data, parser):
 # process a password to match what the spec expects
 # basically, just escape special characters
 # def escape_password(password):
-#     return escaped
+
+#    must_esc = [r';', r':', r',', r'\', r'"']
+#    esc_to = [r'\;', r'\:', r'\,', r'\\', r'\"']
+#    count = 0
+
+#    for str in must_esc:
+#        password.replace(str, esc_to[count])
+#        count++
+
+#    return escaped
 
 # process a password to match spec
 # put passwords that could be interpreted as hex in quotes
