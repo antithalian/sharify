@@ -2,29 +2,29 @@
 
 import argparse
 
-def build_parser():
+def init_parser():
     parser = argparse.ArgumentParser(prog='sharify',
         description='Generate a QR code to share access to a WiFi network'
         )
 
     # add network type arg
-    # accepts all valid network types
+    # accepts all valid network types (that I can think of)
     # required
     parser.add_argument('type',
-        help='Type of network (WPA, WPA2, WEP)',
-        choices=['WPA', 'WPA2', 'WEP', 'wpa', 'wpa2', 'wep']
+        help='Type of network (WPA, WPA2, WEP, nopass)',
+        choices=['WPA', 'WPA2', 'WEP', 'wpa', 'wpa2', 'wep', 'nopass', 'NOPASS']
         )
 
-        # add ssid arg
-        # accepts any string as an ssid
-        # required
+    # add ssid arg
+    # accepts any string as an ssid
+    # required
     parser.add_argument('ssid',
         help='Network\'s SSID \(network\'s name\)'
         )
 
-        # add password arg
-        # accepts a password but defaults to nopass
-        # not required
+    # add password arg
+    # accepts a password but defaults to nopass
+    # not required
     parser.add_argument('-p', '--password',
         help='Network\'s password, this is optional, but most networks have one',
         default='store_const',
@@ -41,12 +41,11 @@ def build_parser():
 
     return parser
 
-def run_parser(struct, parser):
+def parse_passed_args(network_data, parser):
     args_passed = parser.parse_args()
-    struct.append(args_passed.type)
-    struct.append(args_passed.ssid)
-    struct.append(args_passed.password)
-    # TODO
-    # network_data.append(args_passed.hidden)
+    network_data.append(args_passed.type)
+    network_data.append(args_passed.ssid)
+    network_data.append(args_passed.password)
+    network_data.append(args_passed.hidden)
 
-    return struct
+    return network_data

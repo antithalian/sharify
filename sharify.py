@@ -6,21 +6,24 @@
 
 # import qr generator and parser functions
 import qrcode as qr
-from parser import build_parser, run_parser
+from parser import init_parser, parse_passed_args
 
 # construct parser
-parser = build_parser()
+parser = init_parser()
 
 # place network data into struct
-net_data = []
-raw = run_parser(net_data, parser)
+network_data = []
+network_data = parse_passed_args(network_data, parser)
 
-def build_str(data):
+# build the string to be encoded in the QR code
+# format as found on GH wiki listed above
+def build_str(network_data):
+
     return "WIFI:T:" + data[0] + ";S:" + data[1] + ";P:" + data[2] + ";;"
 
-qrstr = build_str(raw)
+qr_str = build_str(network_data)
 
-img = qr.make(qrstr)
+img = qr.make(qr_str)
 
-imgstr = "output/" + raw[1] + ".png"
-img.save(imgstr)
+img_str = "output/" + network_data[1] + ".png"
+img.save(img_str)
