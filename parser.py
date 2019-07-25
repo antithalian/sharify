@@ -29,13 +29,13 @@ def build_parser():
         const=None
         )
 
-        # TODO - FIX HIDDEN NETWORK OPTION
-        # add hidden network arg
-        # defaults to false, as in defaults to network is not hidden
-        # not required
-        # parser.add_argument('-h', '--hidden',
-        #     help='Hidden network option. Few networks are like this'
-        #     )
+    # add hidden network arg
+    # defaults to false, as in defaults to network is not hidden
+    # not required
+    parser.add_argument('--hidden',
+        help='Hidden network option. Few networks are like this',
+        action='store_true'
+        )
 
     return parser
 
