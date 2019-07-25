@@ -19,7 +19,7 @@ network_data = parse_passed_args(network_data, parser)
 # format as found on GH wiki listed above
 def build_str(network_data):
 
-    return "WIFI:T:" + data[0] + ";S:" + data[1] + ";P:" + data[2] + ";;"
+    return "WIFI:T:" + network_data[0] + ";S:" + network_data[1] + ";P:" + network_data[2] + ";;"
 
 qr_str = build_str(network_data)
 
