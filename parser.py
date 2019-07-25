@@ -3,7 +3,9 @@
 import argparse
 
 def build_parser():
-    parser = argparse.ArgumentParser(description='Generate a QR code to share access to a WiFi network', prog="sharify")
+    parser = argparse.ArgumentParser(prog='sharify',
+        description='Generate a QR code to share access to a WiFi network'
+        )
 
     # add network type arg
     # accepts all valid network types
