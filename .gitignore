@@ -1,4 +1,10 @@
+# ignore pycache because that's a pain
 __pycache__
+
+# ignore output except for placeholder
+# basically, don't leak secrets like passwords but also make sure the file still appears on GH
 output/*
 !output/placeholder.png
+
+# yay macos
 .DS_Store
