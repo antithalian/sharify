@@ -52,3 +52,12 @@ def parse_passed_args(network_data, parser):
     network_data.append(args_passed.hidden)
 
     return network_data
+
+# process a password to match what the spec expects
+# basically, just escape special characters
+# def escape_password(password):
+#     return escaped
+
+# process a password to match spec
+# put passwords that could be interpreted as hex in quotes
+# def handle_ABCDEF_password(password):
