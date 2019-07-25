@@ -19,7 +19,32 @@ network_data = parse_passed_args(network_data, parser)
 # format as found on GH wiki listed above
 def build_str(network_data):
 
-    return "WIFI:T:" + network_data[0] + ";S:" + network_data[1] + ";P:" + network_data[2] + ";;"
+    assemble = 'WIFI:'
+
+    # handle NOPASS case
+    if network_data[0].upper() == 'NOPASS':
+        if network_data[2] != None:
+            # handle case of impossibly different input between T and P
+            # simply exit
+            # need to add better error handling and logging
+            print('Error: entered NOPASS network type but provided password')
+            print('Exiting on error, please retry')
+            exit()
+        else:
+            # omit T and P, as specified for NOPASS
+            # need to test if this actually works
+            assemble += 'S:' + network_data[1] + ';'
+
+    # handle not NOPASS case (general)
+    assemble += 'T:' + network_data[0].upper() + ';S:' + network_data[1] + ';P:' + network_data[2] + ';'
+
+    # handle hidden case
+    if network_data[3]:
+        # add hidden tag to end of string
+        assemble += 'H:true;;'
+    else:
+        # if not hidden, add string terminating semicolon
+        assemble += ';'
 
 qr_str = build_str(network_data)
 

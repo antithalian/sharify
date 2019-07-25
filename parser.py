@@ -9,9 +9,11 @@ def init_parser():
 
     # add network type arg
     # accepts all valid network types (that I can think of)
+    # wiki listed in sharify.py claims WPA2 isn't valid, but my phone tells me otherwise when testing
+    # including based on that
     # required
     parser.add_argument('type',
-        help='Type of network (WPA, WPA2, WEP, nopass)',
+        help='Type of network (WPA, WPA2, WEP)',
         choices=['WPA', 'WPA2', 'WEP', 'wpa', 'wpa2', 'wep', 'nopass', 'NOPASS']
         )
 
@@ -26,7 +28,7 @@ def init_parser():
     # accepts a password but defaults to nopass
     # not required
     parser.add_argument('-p', '--password',
-        help='Network\'s password, this is optional, but most networks have one',
+        help='Network\'s password, leave empty if you entered NOPASS for network type',
         default='store_const',
         const=None
         )
