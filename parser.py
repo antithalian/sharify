@@ -38,6 +38,7 @@ def init_parser():
     # not required
     parser.add_argument('--hidden',
         help='Hidden network option. Few networks are like this',
+        default='store_false',
         action='store_true'
         )
 
@@ -45,7 +46,7 @@ def init_parser():
 
 def parse_passed_args(network_data, parser):
     args_passed = parser.parse_args()
-    network_data.append(args_passed.type)
+    network_data.append(args_passed.type.upper())
     network_data.append(args_passed.ssid)
     network_data.append(args_passed.password)
     network_data.append(args_passed.hidden)

@@ -36,15 +36,16 @@ def build_str(network_data):
             assemble += 'S:' + network_data[1] + ';'
 
     # handle not NOPASS case (general)
-    assemble += 'T:' + network_data[0].upper() + ';S:' + network_data[1] + ';P:' + network_data[2] + ';'
+    assemble += 'T:' + network_data[0] + ';S:' + network_data[1] + ';P:' + network_data[2] + ';'
 
     # handle hidden case
-    if network_data[3]:
+    if network_data[3] == True:
         # add hidden tag to end of string
         assemble += 'H:true;;'
     else:
-        # if not hidden, add string terminating semicolon
         assemble += ';'
+
+    return assemble
 
 qr_str = build_str(network_data)
 
