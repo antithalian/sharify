@@ -86,6 +86,8 @@ def wrap_helpers(parser):
 
 # parse data from wifi opts if that's chosen
 # following functions do the same thing for their respective top-level options
+# take data in the format provded by argparse
+# returns a list with data in the order expected by the assembler for its fxn
 def parse_wifi_opts(data):
 
     return st
