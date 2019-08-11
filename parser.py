@@ -1,6 +1,7 @@
 # parser for sharify
 
 import argparse
+from parser_helpers.py import *
 
 def init_parser():
     parser = argparse.ArgumentParser(prog='sharify',
@@ -10,43 +11,11 @@ def init_parser():
     # create mutually exclusive option group for various top-level functions
     parser.add_mutually_exclusive_group('wifi', 'facetime', 'sms', 'phone', 'url', 'contact')
 
-    # add network type arg
-    # accepts all valid network types (that I can think of)
-    # wiki listed in sharify.py claims WPA2 isn't valid, but my phone tells me otherwise when testing
-    # including based on that
-    # required
-    parser.add_argument('type',
-        help='Type of network (WPA, WPA2, WEP)',
-        choices=['WPA', 'WPA2', 'WEP', 'wpa', 'wpa2', 'wep', 'nopass', 'NOPASS']
-        )
-
-    # add ssid arg
-    # accepts any string as an ssid
-    # required
-    parser.add_argument('ssid',
-        help='Network\'s SSID \(network\'s name\)'
-        )
-
-    # add password arg
-    # accepts a password but defaults to nopass
-    # not required
-    parser.add_argument('-p', '--password',
-        help='Network\'s password, leave empty if you entered NOPASS for network type',
-        default='store_const',
-        const=None
-        )
-
-    # add hidden network arg
-    # defaults to false, as in defaults to network is not hidden
-    # not required
-    parser.add_argument('--hidden',
-        help='Hidden network option. Few networks are like this',
-        default='store_false',
-        action='store_true'
-        )
+    parser = wrap_helpers(parser)
 
     return parser
 
+# replace this
 def parse_passed_args(network_data, parser):
     args_passed = parser.parse_args()
     network_data.append(args_passed.type.upper())
