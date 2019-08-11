@@ -6,19 +6,23 @@
 
 # import qr generator and parser functions
 import qrcode as qr
+import argparse
 from assemblers import *
 from parser_helpers import *
-from parser import init_parser, parse_passed_args
 
 # construct parser
-parser = init_parser()
+parser = argparse.ArgumentParser(prog='sharify',
+    description='General purpose QR code generator for various useful QR payloads'
+    )
 
-# REPLACE
-# network_data = parse_passed_args(network_data, parser)
+# create mutually exclusive option group for various top-level functions
+parser.add_mutually_exclusive_group('wifi', 'facetime', 'sms', 'phone', 'url', 'contact')
 
-qr_str = build_str(network_data)
+parser = wrap_helpers(parser)
 
-img = qr.make(qr_str)
+args = parser.parse_args()
+
+img = qr.make("INSERT NEW")
 
 img_str = "output/" + data[1] + ".png"
 img.save(img_str)
