@@ -1,15 +1,10 @@
-# parser for sharify
+# helpers for parser.py
+# layout is a bit awkard, but it allows easy adding of new functions to sharify
+# can just add a new helper here and "register" it with the main parser
 
-import argparse
-
-def init_parser():
-    parser = argparse.ArgumentParser(prog='sharify',
-        description='General purpose QR code generator for various useful QR payloads'
-        )
-
-    # create mutually exclusive option group for various top-level functions
-    parser.add_mutually_exclusive_group('wifi', 'facetime', 'sms', 'phone', 'url', 'contact')
-
+# helper for wifi parser
+# adds options for wifi data parsing
+def add_wifi_opts(parser):
     # add network type arg
     # accepts all valid network types (that I can think of)
     # wiki listed in sharify.py claims WPA2 isn't valid, but my phone tells me otherwise when testing
@@ -47,29 +42,21 @@ def init_parser():
 
     return parser
 
-def parse_passed_args(network_data, parser):
-    args_passed = parser.parse_args()
-    network_data.append(args_passed.type.upper())
-    network_data.append(args_passed.ssid)
-    network_data.append(args_passed.password)
-    network_data.append(args_passed.hidden)
+# adds options for url parsing
+def add_url_opts(parser):
 
-    return network_data
 
-# process a password to match what the spec expects
-# basically, just escape special characters
-# def escape_password(password):
+# adds options for sms parsing
+def add_sms_opts(parser):
 
-#    must_esc = [r';', r':', r',', r'\', r'"']
-#    esc_to = [r'\;', r'\:', r'\,', r'\\', r'\"']
-#    count = 0
 
-#    for str in must_esc:
-#        password.replace(str, esc_to[count])
-#        count++
+# adds options for facetime parsing
+def add_facetime_opts(parser):
 
-#    return escaped
 
-# process a password to match spec
-# put passwords that could be interpreted as hex in quotes
-# def handle_ABCDEF_password(password):
+# adds options for cell parsing
+def add_cell_opts(parser):
+
+
+# adds options for contact data parsing
+def add_contact_opts(parser):
