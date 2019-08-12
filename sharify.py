@@ -56,6 +56,10 @@ else if args[0] == "contact":
 
     structure = parse_contact_opts(args)
 
+# QR image "factory"
+# takes an assembled payload list and runs it through a qr code generator
+# saves code to ../output/data[1].png
+
 img = qr.make(assembled)
 
 img_str = "output/" + data[1] + ".png"
