@@ -1,56 +1,66 @@
-# create QR codes for a wifi network SSID and password
-# working on an MVP here
-# code format is WIFI:T:WPA;S:mynetwork;P:mypass;;
-# documentation for that can be found here:
+# sharify.py
+# create QR codes for various useful data payloads according to spec
+# documentation for that spec can be found here:
 # https://github.com/zxing/zxing/wiki/Barcode-Contents#wi-fi-network-config-android-ios-11
 
-# import qr generator and parser functions
+# import qr generator, parsing, assembly, and logging functions
 import qrcode as qr
-from parser import init_parser, parse_passed_args
+import logging
+import argparse
+from assemblers import *
+from parser_helpers import *
 
-# construct parser
-parser = init_parser()
+# initialize logger
 
-# place network data into struct
-network_data = []
-network_data = parse_passed_args(network_data, parser)
 
-# build the string to be encoded in the QR code
-# format as found on GH wiki listed above
-def build_str(network_data):
 
-    assemble = 'WIFI:'
+# initialize the parser
+parser = argparse.ArgumentParser(prog='sharify',
+    description='General purpose QR code generator for various useful QR payloads'
+    )
 
-    # handle NOPASS case
-    if network_data[0].upper() == 'NOPASS':
-        # apparently argparse stores 'store_const' rather than None, soooo
-        if network_data[2] != 'store_const':
-            # handle case of impossibly different input between T and P
-            # simply exit
-            # need to add better error handling and logging
-            print('Error: entered NOPASS network type but provided password')
-            print('Exiting on error, please retry')
-            exit()
-        else:
-            # omit T and P, as specified for NOPASS
-            # need to test if this actually works
-            assemble += 'S:' + network_data[1] + ';'
+# create mutually exclusive option group for various top-level functions
+parser.add_mutually_exclusive_group('wifi', 'facetime', 'sms', 'phone', 'url', 'contact')
 
-    # handle not NOPASS case (general)
-    assemble += 'T:' + network_data[0] + ';S:' + network_data[1] + ';P:' + network_data[2] + ';'
+# use the helper function wrapper to add all options to the parser
+parser = wrap_helpers(parser)
 
-    # handle hidden case
-    if network_data[3] == True:
-        # add hidden tag to end of string
-        assemble += 'H:true;;'
-    else:
-        assemble += ';'
+# parse command line arguments with the provided function
+args = parser.parse_args()
 
-    return assemble
+# top-level command type will always be at index 0 in args
+# handle different types by checking what the string at args[0] is
+# then call appropriate helper function
+# data is returned in a list called structured which can be passed to an assembler
+if args[0] == 'wifi':
 
-qr_str = build_str(network_data)
+    structured = parse_wifi_opts(args)
 
-img = qr.make(qr_str)
+else if args[0] == 'url':
 
-img_str = "output/" + network_data[1] + ".png"
+    structured = parse_url_opts(args)
+
+else if args[0] == 'sms':
+
+    structured = parse_sms_opts(args)
+
+else if args[0] == 'facetime':
+
+    structure = parse_facetime_opts(args)
+
+else if args[0] == 'cell':
+
+    structure = parse_cell_opts(args)
+
+else if args[0] == "contact":
+
+    structure = parse_contact_opts(args)
+
+# QR image "factory"
+# takes an assembled payload list and runs it through a qr code generator
+# saves code to ../output/data[1].png
+
+img = qr.make(assembled)
+
+img_str = "output/" + data[1] + ".png"
 img.save(img_str)
